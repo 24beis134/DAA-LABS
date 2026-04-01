@@ -1,0 +1,71 @@
+#include <iostream>
+using namespace std;
+
+// Function to heapify a subtree rooted at index i
+void minHeapify(int arr[], int n, int i)
+{
+    int smallest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+
+    // Check left child
+    if (left < n && arr[left] < arr[smallest])
+        smallest = left;
+
+    // Check right child
+    if (right < n && arr[right] < arr[smallest])
+        smallest = right;
+
+    // Swap and continue heapifying
+    if (smallest != i)
+    {
+        swap(arr[i], arr[smallest]);
+        minHeapify(arr, n, smallest);
+    }
+}
+
+// Function to build Min Heap
+void buildMinHeap(int arr[], int n)
+{
+    for (int i = n / 2 - 1; i >= 0; i--)
+        minHeapify(arr, n, i);
+}
+
+// Heap Sort using Min Heap
+void heapSort(int arr[], int n)
+{
+    buildMinHeap(arr, n);
+
+    for (int i = n - 1; i >= 0; i--)
+    {
+        // Move current root to end
+        swap(arr[0], arr[i]);
+
+        // Call heapify on reduced heap
+        minHeapify(arr, i, 0);
+    }
+}
+
+// Print array
+void printArray(int arr[], int n)
+{
+    for (int i = 0; i < n; i++)
+        cout << arr[i] << " ";
+}
+
+// Main function
+int main()
+{
+    int arr[] = {10, 5, 3, 2, 4};
+    int n = sizeof(arr) / sizeof(arr[0]);
+
+    heapSort(arr, n);
+
+    cout << "Sorted array: ";
+    printArray(arr, n);
+
+    return 0;
+}
+OUTPUT
+Sorted array: 10 5 4 3 2
+
